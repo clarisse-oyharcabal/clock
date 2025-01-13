@@ -1,4 +1,4 @@
-from datetime import datetime  # Added import for datetime library
+import time
 import threading
 import msvcrt  # To capture keypresses without blocking input (only works on Windows)
 
@@ -16,12 +16,11 @@ def afficher_heure(hours, minutes, seconds):
     return hours, minutes, seconds
 
 def format_time(hours, minutes, seconds, format_choice):  
-    # Use datetime to create a time object
-    current_time = datetime(2025, 1, 6, hours, minutes, seconds)  
+    struct_time = time.struct_time((2025, 1, 6, hours, minutes, seconds, 0, 0, -1))
     if format_choice == '12h':
-        return current_time.strftime("%I:%M:%S %p")  # 12-hour format
+        return time.strftime("%I:%M:%S %p", struct_time) 
     elif format_choice == '24h':
-        return current_time.strftime("%H:%M:%S")  # 24-hour format
+        return time.strftime("%H:%M:%S", struct_time)  
     else:
         raise ValueError("Invalid format choice!")
 
@@ -33,7 +32,7 @@ def print_time(formatted_time):
     
 def print_alarm_time(alarm_h, alarm_m, alarm_s, format_choice):  
     formatted_alarm = format_time(alarm_h, alarm_m, alarm_s, format_choice)
-    print(f"🔔Alarm is set for: {formatted_alarm}")
+    print(f"\n🔔Alarm is set for: {formatted_alarm}")
 
 def set_time():
     while True:
@@ -55,7 +54,7 @@ def set_time():
                             if not (0 <= seconds < 60):
                                 print("Second value out of range. Please try again.")
                                 continue  
-                            print(f"Time set to: {hours:02d}:{minutes:02d}:{seconds:02d}")
+                            print(f"\n⏰ Time set to: {hours:02d}:{minutes:02d}:{seconds:02d}")
                             return hours, minutes, seconds
                         except ValueError:
                             print("Invalid input for seconds. Please enter a numeric value between 0 and 59.")
@@ -74,7 +73,7 @@ def set_format():
             if format_choice not in ['12h', '24h']:
                 print("Invalid choice, please choose '12h' or '24h'.")
                 continue
-            print(f"Time format set to: {format_choice.upper()}")
+            print(f"\n🔢 Time format set to: {format_choice.upper()}")
             return format_choice
         except ValueError as e:
             print(f"Error: {e}")
@@ -82,10 +81,10 @@ def set_format():
 
 def set_alarm(hours, minutes, seconds, format_choice):
     if hours is None or minutes is None or seconds is None:
-        print("Please set the current time first.")
+        print("\nPlease set the current time first.")
         return None, None, None
     if format_choice is None:
-        print("Please choose the time format first.")
+        print("\nPlease choose the time format first.")
         return None, None, None
     
     while True:
@@ -126,10 +125,10 @@ def check_keypress():
         if msvcrt.kbhit():  # Check if a key is pressed
             key = msvcrt.getch().decode('latin-1').lower()
             return key
-        datetime.sleep(0.1)
+        time.sleep(0.1)
 
 def main():
-    print("⏲️ Welcome to your Clock !")
+    print("\n⏲️  Welcome to your Clock !")
     print("\n🚨 Before starting the clock and setting an alarm, please set the time and choose the format.\n")
 
     hours, minutes, seconds = None, None, None
@@ -137,12 +136,12 @@ def main():
     alarm_hour, alarm_minute, alarm_second = None, None, None
 
     while True:
-        print("\n📖 Main Menu")
+        print("\n" + "="*30 + "\n📖 Main Menu\n" + "="*30)
         print("1.⏰ Set the current time")
         print("2.🔢 Choose the time format")
         print("3.🔔 Set an alarm (optional)")
-        print("4.⛷️Start the clock")
-        print("5.❌Exit")
+        print("4.⛷️  Start the clock")
+        print("5.❌ Exit")
 
         choice = input("\nEnter your choice: ")
 
@@ -152,22 +151,22 @@ def main():
             format_choice = set_format()
         elif choice == '3':
             if hours is None or minutes is None or seconds is None:
-                print("You must set the current time first before setting the alarm.")
+                print("\nYou must set the current time first before setting the alarm.")
             elif format_choice is None:
-                print("You must choose the time format before setting the alarm.")
+                print("\nYou must choose the time format before setting the alarm.")
             else:
                 alarm_hour, alarm_minute, alarm_second = set_alarm(hours, minutes, seconds, format_choice)
                 print_alarm_time(alarm_hour, alarm_minute, alarm_second, format_choice)
         elif choice == '4':
             if hours is None or minutes is None or seconds is None:
-                print("Please set the current time first.")
+                print("\nPlease set the current time first.")
                 continue
             if format_choice is None:
-                print("Please choose the time format first.")
+                print("\nPlease choose the time format first.")
                 continue
 
             print("⏸️ Press 'p' to pause the clock, and ▶️ 'r' to resume it.")
-            print("\n📖 To exit, press 'm' to return to the menu.")
+            print("📖 Press 'm' to return to the menu.")
             print_alarm_time(alarm_hour, alarm_minute, alarm_second, format_choice)
 
             clock_running = True
@@ -189,7 +188,7 @@ def main():
 
                             hours, minutes, seconds = afficher_heure(hours, minutes, seconds)
 
-                        datetime.sleep(1)  # Delay 1 second between updates
+                        time.sleep(1)  # Delay 1 second between updates
                 except KeyboardInterrupt:
                     print("\nClock interrupted!")
 
@@ -211,13 +210,13 @@ def main():
                 else:
                     # Ignore any other keypresses
                     pass
-                datetime.sleep(0.1)  # Small delay to avoid high CPU usage
+                time.sleep(0.1)  # Small delay to avoid high CPU usage
 
         elif choice == '5':
-            print("Exiting the clock...")
+            print("👋 Exiting the clock...")
             break
         else:
-            print("Invalid option! Please choose from the menu.")
+            print("\nInvalid option! Please choose from the menu.")
 
 if __name__ == "__main__":
     main()
