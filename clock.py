@@ -3,7 +3,7 @@ import threading
 import msvcrt  # To capture keypresses without blocking input (only works on Windows)
 
 # Functions definition : functions to update the time
-def afficher_heure(hours, minutes, seconds):  
+def afficher_heure(hours, minutes, seconds):  #tuple= structure de données immuable utilisée pour regrouper plusieurs valeurs. 
     seconds += 1 
     if seconds == 60: 
         seconds = 0
@@ -123,7 +123,7 @@ def check_keypress():
     """Non-blocking keypress check."""
     while True:
         if msvcrt.kbhit():  # Check if a key is pressed
-            key = msvcrt.getch().decode('latin-1').lower()
+            key = msvcrt.getch().decode('latin-1').lower() #latin-1=codage
             return key
         time.sleep(0.1)
 
@@ -131,7 +131,7 @@ def main():
     print("\n⏲️  Welcome to your Clock !")
     print("\n🚨 Before starting the clock and setting an alarm, please set the time and choose the format.\n")
 
-    hours, minutes, seconds = None, None, None
+    hours, minutes, seconds = None, None, None # initialisation inutile: ce n’est pas strictement nécessaire, car la fonction set_time va les définir avant qu’elles ne soient utilisées.
     format_choice = None
     alarm_hour, alarm_minute, alarm_second = None, None, None
 
@@ -174,7 +174,7 @@ def main():
             alarm_triggered = False
 
             def update_clock():
-                nonlocal hours, minutes, seconds, clock_running, clock_paused, alarm_triggered
+                nonlocal hours, minutes, seconds, clock_running, clock_paused, alarm_triggered   #nonlocal : Utilisé pour accéder aux variables définies dans la fonction englobante (main), comme hours, minutes, etc.
                 try:
                     while clock_running:
                         if not clock_paused:
@@ -193,7 +193,7 @@ def main():
                     print("\nClock interrupted!")
 
             clock_thread = threading.Thread(target=update_clock)
-            clock_thread.daemon = True
+            clock_thread.daemon = True      # thread qui s'exécute en arrière-plan et s'arrête automatiquement lorsque le programme principal se termine. Si pas  pas daemon=True, le programme principal attendra que ce thread termine son exécution avant de se fermer, ce qui peut bloquer la fermeture du programme.
             clock_thread.start()
 
             while True:
