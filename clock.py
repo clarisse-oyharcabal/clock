@@ -1,4 +1,4 @@
-import datetime  # Added import for datetime library
+from datetime import datetime  # Added import for datetime library
 import threading
 import msvcrt  # To capture keypresses without blocking input (only works on Windows)
 
@@ -17,7 +17,7 @@ def afficher_heure(hours, minutes, seconds):
 
 def format_time(hours, minutes, seconds, format_choice):  
     # Use datetime to create a time object
-    current_time = datetime.datetime(2025, 1, 6, hours, minutes, seconds)  
+    current_time = datetime(2025, 1, 6, hours, minutes, seconds)  
     if format_choice == '12h':
         return current_time.strftime("%I:%M:%S %p")  # 12-hour format
     elif format_choice == '24h':
@@ -126,7 +126,7 @@ def check_keypress():
         if msvcrt.kbhit():  # Check if a key is pressed
             key = msvcrt.getch().decode('latin-1').lower()
             return key
-        time.sleep(0.1)
+        datetime.sleep(0.1)
 
 def main():
     print("⏲️ Welcome to your Clock !")
@@ -189,7 +189,7 @@ def main():
 
                             hours, minutes, seconds = afficher_heure(hours, minutes, seconds)
 
-                        time.sleep(1)  # Delay 1 second between updates
+                        datetime.sleep(1)  # Delay 1 second between updates
                 except KeyboardInterrupt:
                     print("\nClock interrupted!")
 
@@ -211,7 +211,7 @@ def main():
                 else:
                     # Ignore any other keypresses
                     pass
-                time.sleep(0.1)  # Small delay to avoid high CPU usage
+                datetime.sleep(0.1)  # Small delay to avoid high CPU usage
 
         elif choice == '5':
             print("Exiting the clock...")
