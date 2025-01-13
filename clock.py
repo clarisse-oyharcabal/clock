@@ -28,29 +28,29 @@ def alarm_setting(current_h, current_m, current_s, alarm_h, alarm_m, alarm_s):
     return (current_h == alarm_h and current_m == alarm_m and current_s == alarm_s)
     
 def print_time(formatted_time):  
-    print(f"⏲️ The current time is: {formatted_time}", end="\r")
+    print(f"⏲️  The current time is: {formatted_time}", end="\r")
     
 def print_alarm_time(alarm_h, alarm_m, alarm_s, format_choice):  
     formatted_alarm = format_time(alarm_h, alarm_m, alarm_s, format_choice)
-    print(f"\n🔔Alarm is set for: {formatted_alarm}")
+    print(f"🔔 Alarm is set for: {formatted_alarm}")
 
 def set_time():
     while True:
         try:
-            hours = int(input("Enter current hour (0 - 23): "))
+            hours = int(input("Enter current hour (0 - 23): ").strip())
             if not (0 <= hours < 24):
-                print("Hour value out of range. Please try again.")
+                print("Hour value out of range. Please try again.".strip())
                 continue  
 
             while True:
                 try:
-                    minutes = int(input("Enter current minute (0 - 59): "))
+                    minutes = int(input("Enter current minute (0 - 59): ").strip())
                     if not (0 <= minutes < 60):
                         print("Minute value out of range. Please try again.")
                         continue  
                     while True:
                         try:
-                            seconds = int(input("Enter current second (0 - 59): "))
+                            seconds = int(input("Enter current second (0 - 59): ").strip())
                             if not (0 <= seconds < 60):
                                 print("Second value out of range. Please try again.")
                                 continue  
@@ -91,20 +91,20 @@ def set_alarm(hours, minutes, seconds, format_choice):
         try:
             print(f"Please, set the alarm")
 
-            alarm_hour = int(input("Choose the alarm hour (0 - 23): "))
+            alarm_hour = int(input("Choose the alarm hour (0 - 23): ").strip())
             if not (0 <= alarm_hour < 24):
                 print("Alarm hour value out of range. Please try again.")
                 continue  
 
             while True:
                 try:
-                    alarm_minute = int(input("Choose the alarm minute (0 - 59): "))
+                    alarm_minute = int(input("Choose the alarm minute (0 - 59): ").strip())
                     if not (0 <= alarm_minute < 60):
                         print("Alarm minute value out of range. Please try again.")
                         continue  
                     while True:
                         try:
-                            alarm_second = int(input("Choose the alarm second (0 - 59): "))
+                            alarm_second = int(input("Choose the alarm second (0 - 59): ").strip())
                             if not (0 <= alarm_second < 60):
                                 print("Alarm second value out of range. Please try again.")
                                 continue  
@@ -143,7 +143,7 @@ def main():
         print("4.⛷️  Start the clock")
         print("5.❌ Exit")
 
-        choice = input("\nEnter your choice: ")
+        choice = input("\nEnter your choice: ").strip()  # Strip any surrounding spaces
 
         if choice == '1':
             hours, minutes, seconds = set_time()
