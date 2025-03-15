@@ -37,6 +37,6 @@ This project is a terminal-based clock that allows users to set the current time
 2. Run the script in a terminal-based Python environment.
 
 ```bash
-git clone https://github.com/yourusername/terminal-based-clock.git
-cd terminal-based-clock
-python clock_script.py
+git clone https://github.com/clarisse-oyharcabal/clock.git
+cd clock
+python clock.py
